@@ -7,7 +7,7 @@ on:
     branches:
       - main
 env:
-  JAR_FILE: spring-github-actions-app-0.0.1-SNAPSHOT.jar
+  JAR_FILE: sboard-0.0.1-SNAPSHOT.jar
 jobs:
   build:
     runs-on: ubuntu-latest
