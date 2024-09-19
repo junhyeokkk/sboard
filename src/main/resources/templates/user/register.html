@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/postcode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/validation.js}"></script>
+
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <h3>Board System</h3>
+        </header>
+        <main id="user">
+            <section class="register">
+
+                <form action="/user/register" method="post">
+                    <h2 class="tit">사이트 이용정보 입력</h2>
+                    <table border="1">                        
+                        <tr>
+                            <td>아이디</td>
+                            <td>
+                                <input type="text" name="uid" placeholder="아이디 입력"/>
+                                <button type="button" id ="btnCheckUid"><img th:src="@{/img/chk_id.gif}" alt="중복확인"/></button>
+                                <span class="resultId"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td><input type="password" name="pass1" placeholder="비밀번호 입력"/></td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호 확인</td>
+                            <td><input type="password" name="pass2" placeholder="비밀번호 입력 확인"/>
+                                <span class="resultPass"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2 class="tit">개인정보 입력</h2>
+                    <table border="1">                        
+                        <tr>
+                            <td>이름</td>
+                            <td>
+                                <input type="text" name="name" placeholder="이름 입력"/>
+                                <span class="resultName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>별명</td>
+                            <td>
+                                <p class="nickInfo">공백없는 한글, 영문, 숫자 입력</p>
+                                <input type="text" name="nick" placeholder="별명 입력"/>
+                                <button type="button"><img th:src="@{/img/chk_id.gif}" alt="중복확인"/></button>
+                                <span class="resultNick"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td>
+                                <input type="email" name="email" placeholder="이메일 입력"/>
+                                <button id="btnSendEmail" type="button"><img th:src="@{/img/chk_auth.gif}" alt="인증번호 받기"/></button>
+                                <span class="resultEmail"></span>
+                                <div class="auth">
+                                    <input type="text" name="auth" placeholder="인증번호 입력"/>
+                                    <button id="btnAuthEmail" type="button"><img th:src="@{/img/chk_confirm.gif}" alt="확인"/></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>휴대폰</td>
+                            <td><input type="text" name="hp" placeholder="휴대폰 입력"/></td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td>
+                                <input type="text" name="zip" placeholder="우편번호"/>
+                                <button type="button"><img th:src="@{/img/chk_post.gif}" alt="우편번호찾기"/></button>
+                                <input type="text" name="addr1" placeholder="주소 검색"/>
+                                <input type="text" name="addr2" placeholder="상세주소 입력"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div>
+                        <a th:href="@{/user/login}" class="btn btnCancel">취소</a>
+                        <input type="submit" value="회원가입" class="btn btnRegister"/>
+                    </div>
+
+                </form>
+
+            </section>
+        </main>
+        <footer>
+            <p>
+                <span class="copyright">Copyrightⓒ 김철학(개발에반하다.)</span>
+                <span class="version">v1.0.1</span>
+            </p>
+        </footer>
+    </div>    
+</body>
+</html>
