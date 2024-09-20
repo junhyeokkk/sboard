@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @ResponseBody
     @GetMapping(value = "/user/checkUser")
@@ -69,12 +73,27 @@ public class RegisterController {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             }
         }
+        else if(type.equals("hp")) {
+            UserDTO userDTO = UserDTO.builder()
+                    .hp(value)
+                    .build();
+            UserDTO user = userService.selectUser(type,userDTO);
+            log.info(user);
+            int result = 1;
+            if (user != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(user);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
         return null;
     }
 
     @PostMapping(value = "/user/checkUser")
-    public ResponseEntity CheckEmail(@RequestBody String code, HttpSession session){
+    public ResponseEntity CheckEmail(@RequestBody Map<String, String> requestBody, HttpSession session){
+
         String checkcode = (String) session.getAttribute("code");
+        String code = requestBody.get("code");
+
         log.info("ccccccccccc" + checkcode);
         log.info("ooooooooooooo" + code);
         int result = 1;
@@ -85,5 +104,12 @@ public class RegisterController {
             result = 0;
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
+    }
+
+    @PostMapping(value = "/user/register")
+    public String registerUser(@ModelAttribute UserDTO userDTO){
+        log.info("aaaaaaaaaaaaaa");
+        userService.insertUser(userDTO);
+        return "redirect:/user/login";
     }
 }

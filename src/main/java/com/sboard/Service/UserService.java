@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -25,6 +26,28 @@ public class UserService {
     private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final SpringTemplateEngine templateEngine;
+    private final PasswordEncoder passwordEncoder;
+
+
+    //로그인 검증 메서드
+    public UserDTO selectUser(String uid) {
+        Optional<User> optUser = userRepository.findById(uid);
+
+        if(optUser.isPresent()) {
+            User user = optUser.get();
+            return user.toDTO();
+        }
+        return null;
+    }
+
+    //회원가입 메서드
+    public void insertUser(UserDTO userDTO) {
+        String encoded= passwordEncoder.encode(userDTO.getPass());
+        userDTO.setPass(encoded);
+
+        //회원가입
+        userRepository.save(userDTO.toEntity());
+    }
 
     // 인증번호 및 임시 비밀번호 생성 메서드
     public String createCode() {
@@ -50,6 +73,7 @@ public class UserService {
         return templateEngine.process(type, context);
     }
 
+    // 메일보내기
     public String sendMail(EmailMessage emailMessage, String type) {
         String authNum = createCode();
 
@@ -71,6 +95,7 @@ public class UserService {
         }
     }
 
+    // 중복 검사 메서드
     public UserDTO selectUser(String type, UserDTO userDTO) {
         if(type.equals("uid")) {
             Optional<User> opt = userRepository.findById(userDTO.getUid());
@@ -90,6 +115,14 @@ public class UserService {
         }
         else if(type.equals("email")) {
             Optional<User> opt = userRepository.findByEmail(userDTO.getEmail());
+
+            if(opt.isPresent()) {
+                User user = opt.get();
+                return user.toDTO();
+            }
+        }
+        else if(type.equals("hp")) {
+            Optional<User> opt = userRepository.findByHp(userDTO.getHp());
 
             if(opt.isPresent()) {
                 User user = opt.get();

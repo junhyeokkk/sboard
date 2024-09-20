@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         // 로그인 설정
         http.formLogin(login -> login.loginPage("/user/login")
-                                                    .defaultSuccessUrl("/user/success")
+                                                    .defaultSuccessUrl("/article/list")
                                                     .failureUrl("/user/login?success=100")
                                                     .usernameParameter("uid")
                                                     .passwordParameter("pass"));

@@ -63,7 +63,7 @@ window.onload = function(){
     // 2.비밀번호 유효성 검사
     registerForm.pass2.addEventListener('focusout', function(){
 
-        const pass1 = registerForm.pass1.value;
+        const pass1 = registerForm.pass.value;
         const pass2 = registerForm.pass2.value;
 
         if(!pass1.match(rePass)){
@@ -176,13 +176,14 @@ window.onload = function(){
 
         fetch('/sboard/user/checkUser', {
             method: 'POST',
+            headers: {'Content-type':'application/json'},
             body: JSON.stringify({"code":code})
         })
             .then(resp => resp.json())
             .then(data => {
                 console.log(data);
 
-                if(data.result > 0){
+                if(data > 0){
                     resultEmail.innerText = '이메일이 인증되었습니다.';
                     resultEmail.style.color = 'green';
                     isEmailOk = true;
@@ -202,8 +203,13 @@ window.onload = function(){
 
         const hp = registerForm.hp.value;
 
+        if(!hp.match(reHp)){
+            resultHp.innerText = '휴대폰번호가 유효하지 않습니다.';
+            resultHp.style.color = 'red';
+            return;
+        }
         try{
-            const response = await fetch('/jboard/user/checkUser.do?type=hp&value='+hp);
+            const response = await fetch('/sboard/user/checkUser.do?type=hp&value='+hp);
             const data = await response.json();
             console.log(data);
 
