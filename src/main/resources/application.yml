@@ -23,9 +23,9 @@ spring:
         version: 0.0.2
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: 1001
+        password: StrongPassword1!
         url: jdbc:mysql://52.79.87.164:3306/jboard
-        username: root
+        username: jboard
     devtools:
 
         livereload:
