@@ -19,7 +19,8 @@
                 <nav>
                     <h1>글쓰기</h1>
                 </nav>
-                <form action="#">
+                <form th:action="@{/article/write}" method="post" enctype="multipart/form-data">
+                    <input type="text" name="writer" th:value="${#authentication.principal.user.uid}"/>
                     <table border="0">                        
                         <tr>
                             <th>제목</th>
@@ -34,7 +35,11 @@
                         <tr>
                             <th>파일</th>
                             <td>
-                                <input type="file" name="file"/>
+                                <p style="margin-bottom: 6px;">
+                                    최대 2개 파일 첨부 가능, 각 파일당 최대 10MB까지 가능
+                                </p>
+                                <input type="file" name="files"/>
+                                <input type="file" name="files"/>
                             </td>
                         </tr>
                     </table>
@@ -50,7 +55,7 @@
         <footer>
             <p>
                 <span class="copyright">Copyrightⓒ 김철학(개발에반하다.)</span>
-                <span class="version">v1.0.1</span>
+                <span class="version">[[${appInfo.appName}]] ver.[[${appInfo.appVersion}]]</span>
             </p>
         </footer>
     </div>    

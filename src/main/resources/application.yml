@@ -20,14 +20,13 @@ server:
 spring:
     application:
         name: sboard
-        version: 0.0.3
+        version: 0.0.4
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: StrongPassword1!
         url: jdbc:mysql://52.79.87.164:3306/jboard
         username: jboard
     devtools:
-
         livereload:
             enabled: true
     jpa:
@@ -54,3 +53,7 @@ spring:
                         enable: true
     thymeleaf:
         prefix: classpath:/templates
+    servlet:
+        multipart:
+            location: uploads/
+            max-file-size: 10MB

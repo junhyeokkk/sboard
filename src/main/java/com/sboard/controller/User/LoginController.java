@@ -10,5 +10,4 @@ public class LoginController {
 
     private final UserService userService;
 
-
 }

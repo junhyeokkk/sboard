@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.sboard'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 
 java {
     toolchain {
@@ -43,6 +43,9 @@ dependencies {
     implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity6', version: '3.1.2.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
+
 }
 
 tasks.named('test') {

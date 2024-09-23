@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
 
-    private final AppInfo appInfo;
+
 
     @GetMapping (value = "/user/login")
     public String login(Model model){
-        model.addAttribute(appInfo);
         return "/user/login";
     }
 
