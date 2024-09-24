@@ -20,7 +20,6 @@ server:
 spring:
     application:
         name: sboard
-        version: 0.0.4
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: StrongPassword1!
@@ -57,3 +56,5 @@ spring:
         multipart:
             location: uploads/
             max-file-size: 10MB
+ext:
+    version: ${ext.version}

@@ -265,8 +265,12 @@ footer > p > .version {
 #board > .list > nav > form {
     float: right;
 }
+#board > .list > nav > form > select{
+    height: 26px;
+    outline: none;
+}
 
-#board > .list > nav > form > input[name=search]{
+#board > .list > nav > form > input[name=keyword]{
     width: 200px;
     height: 26px;
     text-indent: 6px;

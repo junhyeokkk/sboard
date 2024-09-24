@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>글목록</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <!--<script type="text/javascript" th:src="@{/js/page.js}"></script>-->
 </head>
 <body>
     <div id="wrapper">
         <header>
             <h3>Board System</h3>
             <p>
-                <span>홍길동</span>님 반갑습니다.
+                <span sec:authentication="principal.user.nick">닉네임</span>님 반갑습니다.
                 <a th:href="@{/user/login}">[로그아웃]</a>
             </p>
         </header>
         <main id="board">
             <section class="list">
                 <nav>
-                    <h1>글목록</h1>
-                    <form action="#">
-                        <input type="text" name="search" placeholder="제목 키워드, 글쓴이 검색">
+                    <h1>
+                        <a th:href="@{/article/list}">글목록</a>
+                    </h1>
+                    <form th:action="@{/article/list}" class="search">
+                        <select name="type">
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                            <option value="title_content">제목+내용</option>
+                            <option value="writer">글쓴이</option>
+                        </select>
+
+                        <input type="text" name="keyword" placeholder="제목 키워드, 글쓴이 검색">
                         <input type="submit" value="검색">
                     </form>
                 </nav>
@@ -31,22 +41,38 @@
                         <th>글쓴이</th>
                         <th>날짜</th>
                         <th>조회</th>
-                    </tr>                    
-                    <tr>
-                        <td>1</td>
-                        <td><a th:href="@{/article/view}">테스트 제목입니다.[3]</a></td>
-                        <td>길동이</td>
-                        <td>20-05-12</td>
-                        <td>12</td>
                     </tr>
+
+                    <tr th:each="article , i:${pageResponseDTO.getDtoList()}">
+                        <td>[[${pageResponseDTO.startNo - i.index}]]</td>
+                        <td><a th:href="@{/article/view}">[[${article.title}]]&#91;[[${article.comment}]]&#93;</a></td>
+                        <td th:text="${article.nick}"></td>
+                        <td th:text="${article.rdate}"></td>
+                        <td th:text="${article.hit}"></td>
+                    </tr>
+
                 </table>
 
                 <div class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num current">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+
+                    <th:block th:if="${pageResponseDTO.prev}">
+                        <a th:if="${pageResponseDTO.keyword == null}" th:href="@{/article/list(pg=${pageRequestDTO.start-1})}" class="prev" >이전</a>
+                        <a th:if="${pageResponseDTO.keyword != null}" th:href="@{/article/list(pg=${pageRequestDTO.start-1}, type=${pageResponseDTO.type}, keyword=${pageResponseDTO.keyword})}" class="prev" >이전</a>
+                    </th:block>
+
+                    <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                        <a th:if="${pageResponseDTO.keyword == null}" th:href="@{/article/list(pg=${num})}"
+                           th:class="${num == pageResponseDTO.pg} ? 'num current' : 'num'">[[${num}]]</a>
+                        <a th:if="${pageResponseDTO.keyword != null}" th:href="@{/article/list(pg=${num}, type=${pageResponseDTO.type}, keyword=${pageResponseDTO.keyword})}"
+                           th:class="${num == pageResponseDTO.pg} ? 'num current' : 'num'">[[${num}]]</a>
+                    </th:block>
+
+                    <th:block th:if="${pageResponseDTO.next}">
+                        <a th:if="${pageResponseDTO.keyword == null}" th:href="@{/article/list(pg=${pageResponseDTO.end+1})}" class="next" >다음</a>
+                        <a th:if="${pageResponseDTO.keyword != null}" th:href="@{/article/list(pg=${pageResponseDTO.end+1}, type=${pageResponseDTO.type}, keyword=${pageResponseDTO.keyword})}" class="next">다음</a>
+                    </th:block>
+
+
                 </div>
 
                 <a th:href="@{/article/write}" class="btn btnWrite">글쓰기</a>
@@ -55,8 +81,8 @@
         </main>
         <footer>
             <p>
-                <span class="copyright">Copyrightⓒ 김철학(개발에반하다.)</span>
-                <span class="version">[[${appInfo.appName}]] ver.[[${appInfo.appVersion}]]</span>
+                <span class="copyright">[[${appInfo.appName}]] </span>
+                <span class="version">ver.[[${appInfo.appVersion}]]</span>
             </p>
         </footer>
     </div>    
