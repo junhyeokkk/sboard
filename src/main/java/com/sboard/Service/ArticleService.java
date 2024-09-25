@@ -2,6 +2,7 @@ package com.sboard.Service;
 
 import com.querydsl.core.Tuple;
 import com.sboard.dto.ArticleDTO;
+import com.sboard.dto.FileDTO;
 import com.sboard.dto.PageRequestDTO;
 import com.sboard.dto.PageResponseDTO;
 import com.sboard.entity.Article;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -43,8 +45,16 @@ public class ArticleService {
         return savedArticle.getNo();
     }
 
+
     public ArticleDTO selectArticle(int no) {
 
+        Optional<Article> opt = articleRepository.findById(no);
+        if(opt.isPresent()) {
+            Article article = opt.get();
+            log.info(article);
+            ArticleDTO dto = modelMapper.map(article, ArticleDTO.class);
+            return dto;
+        }
         return null;
     }
 

@@ -6,7 +6,9 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.CurrentTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,11 +33,18 @@ public class Article {
     private String regip;
 
     @CreationTimestamp
-    private LocalDateTime rdate;
+    private LocalDate rdate;
 
     // 추가 필드
     @Transient // 엔티티에 속성에서 제외시키는 어노테이션, 테이블 컬럼 생성 안함
     private String nick;
+
+    //1:N 속성은 List 선언, mappedBy로 매핑되는 엔티티(테이블)의 외래키 참조
+    @OneToMany(mappedBy = "ano")
+    private List<FileEntity> fileList;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> commentList;
 
     /*
         DTO 변환 메서드 대신 ModelMapper 사용

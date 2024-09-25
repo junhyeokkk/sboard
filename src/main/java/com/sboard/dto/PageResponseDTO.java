@@ -40,7 +40,12 @@ public class PageResponseDTO {
         this.start = this.end - 9;
 
         int last  = (int) (Math.ceil(total / (double) size));
+
         this.end = end > last ? last : end;
+        // end가 start보다 작을 때 end가 0 되는것 방지
+        if(this.start > this.end) {
+            this.end = this.start;
+        }
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
 

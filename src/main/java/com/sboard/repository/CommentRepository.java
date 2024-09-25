@@ -1,10 +1,9 @@
 package com.sboard.repository;
 
-import com.sboard.entity.FileEntity;
+import com.sboard.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FileRepository extends JpaRepository<FileEntity, Integer> {
-    public FileEntity findByAno(int ano);
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
 }

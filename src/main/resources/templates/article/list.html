@@ -42,15 +42,13 @@
                         <th>날짜</th>
                         <th>조회</th>
                     </tr>
-
-                    <tr th:each="article , i:${pageResponseDTO.getDtoList()}">
-                        <td>[[${pageResponseDTO.startNo - i.index}]]</td>
-                        <td><a th:href="@{/article/view}">[[${article.title}]]&#91;[[${article.comment}]]&#93;</a></td>
-                        <td th:text="${article.nick}"></td>
-                        <td th:text="${article.rdate}"></td>
-                        <td th:text="${article.hit}"></td>
-                    </tr>
-
+                            <tr th:each="article , i:${pageResponseDTO.getDtoList()}">
+                                <td>[[${pageResponseDTO.startNo - i.index}]]</td>
+                                <td><a th:href="@{/article/view(no=${article.no})}">[[${article.title}]]&#91;[[${article.comment}]]&#93;</a></td>
+                                <td th:text="${article.nick}"></td>
+                                <td th:text="${article.rdate}"></td>
+                                <td th:text="${article.hit}"></td>
+                            </tr>
                 </table>
 
                 <div class="page">
